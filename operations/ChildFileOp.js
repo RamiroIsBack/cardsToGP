@@ -86,7 +86,7 @@ const fillOutChildData = (arrayOfDataFromChildObjects, inventoryWorksheet, itemN
   var expirationDate = null;
   var binLocation = null;
   var typeForBin = null;
-  if (itemNumber !== null || itemNumber !== undefined ||itemNumber !== '') {
+  if (itemNumber !== null && itemNumber !== undefined && itemNumber !=='') {
     // there is a coincidence in mother - child
     var matchingElementCol = inventoryWorksheet.getColumn(rowIndex); //getting col for quantity
     var lotCol = inventoryWorksheet.getColumn("A"); //getting col for lot
