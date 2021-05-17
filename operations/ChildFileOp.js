@@ -54,9 +54,11 @@ const getData = (workbookChild, file) => {
     );
   }
   var itemNumber = null;
-  var formula = file.substr(3, file.indexOf(" "));;
+  var formula = file.substr(3, file.indexOf(" ")-3);;
   var rowIndex = 0;
-
+  if (formula === 'L12-112'){
+    let hola = 'hi'
+  }
   for (rowIndex = 0; rowIndex < row.values.length; rowIndex++) {
     var itemNum = row.values[rowIndex];
     if (itemNum && itemNum !== undefined) {
@@ -84,7 +86,7 @@ const fillOutChildData = (arrayOfDataFromChildObjects, inventoryWorksheet, itemN
   var expirationDate = null;
   var binLocation = null;
   var typeForBin = null;
-  if (itemNumber !== null || itemNumber === "?") {
+  if (itemNumber !== null || itemNumber !== undefined ||itemNumber !== '') {
     // there is a coincidence in mother - child
     var matchingElementCol = inventoryWorksheet.getColumn(rowIndex); //getting col for quantity
     var lotCol = inventoryWorksheet.getColumn("A"); //getting col for lot
@@ -97,13 +99,14 @@ const fillOutChildData = (arrayOfDataFromChildObjects, inventoryWorksheet, itemN
             lotCol.values[i].result.toString() :
             lotCol.values[i].toString();
           //exclude last row with total amount
-          if (lotNotTotals.toLowerCase() === "totals") {
+          if (lotNotTotals.toLowerCase() === "totals" || lotNotTotals.toLowerCase() === "total") {
             break; // there is no more usefull data
           }
         }
 
         unitNumberInStock = matchingElementCol.values[i].result !== undefined ? matchingElementCol.values[i].result : matchingElementCol.values[i];
-        if (unitNumberInStock !== 0 && unitNumberInStock !== undefined) {
+        //number not 0
+        if (unitNumberInStock !== 0 && unitNumberInStock !== undefined && unitNumberInStock !=='' && typeof(unitNumberInStock) === 'number') {
           //this is the line to get the data from
 
           var rowToFindExp = inventoryWorksheet.getRow(i);
@@ -168,7 +171,7 @@ const fillOutChildData = (arrayOfDataFromChildObjects, inventoryWorksheet, itemN
             }
           }
 
-          arrayOfDataFromChildObjects.push({
+          arrayOfDataFromChildObjects. push({
             formula,
             itemNumber,
             stockQuantity: unitNumberInStock,
